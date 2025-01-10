@@ -13,6 +13,7 @@ contract Twitter {
     mapping (address => Tweet[]) public tweets;
 
     function createTweet(string memory _tweet) public { 
+        require(bytes(_tweet).length >= 280, "The tweet is too long");
         Tweet memory newTweet = Tweet({
             author: msg.sender,
             content: _tweet,
@@ -23,8 +24,8 @@ contract Twitter {
         tweets[msg.sender].push(newTweet);
     }
 
-    function getTweets(address _owner, uint _i) public view returns (Tweet memory) {
-        return tweets[_owner][_i];
+    function getTweets( uint _i) public view returns (Tweet memory) {
+        return tweets[msg.sender][_i];
     }
 
     function getAllTweets(address _owner ) public  view returns (Tweet[] memory) {
